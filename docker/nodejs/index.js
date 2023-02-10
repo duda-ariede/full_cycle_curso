@@ -9,11 +9,12 @@ const config = {
 };
 const mysql = require ('mysql')
 const connection = mysql.createConnection(config)
-const sql_table = `create table people(id int not null auto_increment,
+const sql_table = `create table if not exists people(id int not null auto_increment,
   name varchar(255), primary key(id))`
-const sql_insert = `insert into people(name) values
-  ("DUDA - Carlos Eduardo Ariede")`
+const sql_insert = `INSERT IGNORE INTO people (name)
+VALUES ('DUDA - Carlos Eduardo Ariede')`
 const sql_query = `select name from people`
+
 connection.query(sql_table)
 connection.query(sql_insert)
 connection.query(sql_query, function(err, rows){
