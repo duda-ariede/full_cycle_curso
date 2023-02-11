@@ -15,8 +15,7 @@ services:
     networks:
       - nodejs
   nodejs:
-    build:
-      context: nodejs
+    image: dudaariede/nodejs-desafio
     container_name: nodejs
     entrypoint: dockerize -wait tcp://db:3306 -timeout 20s node /app/index.js
     networks:
@@ -28,14 +27,13 @@ services:
       - mysql
 
   nginx:
-    build:
-      context: nginx
+    image: dudaariede/nginx-desafio
     container_name: nginx
     entrypoint: dockerize -wait tcp://nodejs:3000 -timeout 20s /docker-entrypoint.sh nginx -g "daemon off;"
     networks:
       - nodejs
     ports:
-      - "8080:80"
+      - '8080:80'
     depends_on:
       - mysql
       - nodejs
